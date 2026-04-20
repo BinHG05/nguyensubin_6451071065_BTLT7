@@ -1,6 +1,8 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../../utils/api_constants.dart';
 import '../models/user_model.dart';
 
@@ -12,20 +14,20 @@ class ApiService {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'User-Agent': 'PostmanRuntime/7.37.0', // Giả lập User-Agent phổ biến
+          'User-Agent': 'PostmanRuntime/7.37.0',
         },
       );
 
       if (response.statusCode == 200) {
-        List jsonResponse = json.decode(response.body);
+        final List jsonResponse = json.decode(response.body);
         return jsonResponse.map((user) => User.fromJson(user)).toList();
-      } else {
-        throw Exception('Lỗi hệ thống (Status code: ${response.statusCode})');
       }
+
+      throw Exception('Loi he thong (Status code: ${response.statusCode})');
     } on SocketException {
-      throw Exception('Không có kết nối Internet. Vui lòng kiểm tra lại mạng.');
+      throw Exception('Khong co ket noi Internet. Vui long kiem tra lai mang.');
     } catch (e) {
-      throw Exception('Đã xảy ra lỗi: $e');
+      throw Exception('Da xay ra loi: $e');
     }
   }
 }
